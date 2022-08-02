@@ -19,14 +19,20 @@ package com.resare.nryaml;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class YAMLUtil {
-    private static DumperOptions OPTIONS = new DumperOptions();
+    private static final DumperOptions OPTIONS = new DumperOptions();
     static {
         OPTIONS.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
     }
-    private static ThreadLocal<Yaml> parser = ThreadLocal.withInitial(() -> new Yaml(OPTIONS));
+    private static final ThreadLocal<Yaml> parser = ThreadLocal.withInitial(() -> new Yaml(OPTIONS));
 
     public static YAMLValue fromInputStream(InputStream inputStream) {
         return new YAMLValueImpl(parser.get().load(inputStream));
@@ -42,5 +48,24 @@ public class YAMLUtil {
 
     public static YAMLValue fromString(String input) {
         return new YAMLValueImpl(parser.get().load(input));
+    }
+
+    /**
+     * Parse and return all YAML documents present in the file referenced by path.
+     * This class will wrap IOExceptions into RuntimeExceptions to facilitate use
+     * with streaming APIs.
+     */
+    public static Iterable<YAMLValue> allFromPath(Path path) {
+        try (var inputStream = Files.newInputStream(path)) {
+            return stream(parser.get().loadAll(inputStream))
+                    .map(YAMLValueImpl::new)
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    static <T> Stream<T> stream(Iterable<T> iterable) {
+        return StreamSupport.stream(iterable.spliterator(), false);
     }
 }
