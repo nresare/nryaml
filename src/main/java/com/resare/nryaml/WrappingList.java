@@ -20,10 +20,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 
 class WrappingList<T> implements List<T> {
 
-    private List<T> inner;
+    private final List<T> inner;
 
     public WrappingList(List<T> inner) {
 
@@ -57,6 +58,7 @@ class WrappingList<T> implements List<T> {
 
     @Override
     public <U> U[] toArray(U[] a) {
+        //noinspection SuspiciousToArrayCall
         return inner.toArray(a);
     }
 
@@ -70,6 +72,7 @@ class WrappingList<T> implements List<T> {
         return inner.remove(o);
     }
 
+    @SuppressWarnings("SlowListContainsAll")
     @Override
     public boolean containsAll(Collection<?> c) {
         return inner.containsAll(c);
@@ -143,5 +146,18 @@ class WrappingList<T> implements List<T> {
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
         return inner.subList(fromIndex, toIndex);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WrappingList<?> that = (WrappingList<?>) o;
+        return inner.equals(that.inner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(inner);
     }
 }

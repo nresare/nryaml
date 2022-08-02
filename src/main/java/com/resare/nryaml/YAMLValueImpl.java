@@ -18,6 +18,7 @@ package com.resare.nryaml;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -88,5 +89,18 @@ class YAMLValueImpl implements YAMLValue {
             return sequence.toBareObject();
         }
         return inner;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        YAMLValueImpl yamlValue = (YAMLValueImpl) o;
+        return inner.equals(yamlValue.inner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(inner);
     }
 }

@@ -18,6 +18,7 @@ package com.resare.nryaml;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -91,4 +92,16 @@ class WrappingMap<K, V> implements Map<K, V> {
         return inner.entrySet();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WrappingMap<?, ?> that = (WrappingMap<?, ?>) o;
+        return inner.equals(that.inner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(inner);
+    }
 }
