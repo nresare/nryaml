@@ -27,25 +27,25 @@ class YAMLMappingTest {
     void testWrongCast() {
         assertThrows(
               ClassCastException.class,
-              () -> YAMLValue.fromBare(Map.of()).asMapping().asInteger()
+              () -> YAMLUtil.fromBare(Map.of()).asMapping().asInteger()
         );
         assertThrows(
                 ClassCastException.class,
-                () -> YAMLValue.fromBare(Map.of()).asMapping().asString()
+                () -> YAMLUtil.fromBare(Map.of()).asMapping().asString()
         );
         assertThrows(
                 ClassCastException.class,
-                () -> YAMLValue.fromBare(Map.of()).asMapping().asBoolean()
+                () -> YAMLUtil.fromBare(Map.of()).asMapping().asBoolean()
         );
         assertThrows(
                 ClassCastException.class,
-                () -> YAMLValue.fromBare(Map.of()).asMapping().asSequence()
+                () -> YAMLUtil.fromBare(Map.of()).asMapping().asSequence()
         );
     }
 
     @Test
     void testAsMapping() {
-        var mapping = YAMLValue.fromBare(Map.of()).asMapping();
+        var mapping = YAMLUtil.fromBare(Map.of()).asMapping();
         assertEquals(mapping, mapping.asMapping());
     }
 

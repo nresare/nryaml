@@ -33,7 +33,7 @@ public class YAMLValueTest {
                 "middle", "foobar",
                 "right", true
         );
-        var value = YAMLValue.fromBare(map);
+        var value = YAMLUtil.fromBare(map);
 
         var left = value.asMapping().get("left");
         var aNumber = left.asSequence().get(1);
@@ -50,11 +50,11 @@ public class YAMLValueTest {
 
     @Test
     void testNonStringMapKey() {
-        assertThrows(IllegalArgumentException.class, () -> YAMLValue.fromBare(Map.of(true, 42)));
+        assertThrows(IllegalArgumentException.class, () -> YAMLUtil.fromBare(Map.of(true, 42)));
     }
 
     @Test
     void checkUnhandledClass() {
-        assertThrows(IllegalArgumentException.class, () -> YAMLValue.fromBare(String.class));
+        assertThrows(IllegalArgumentException.class, () -> YAMLUtil.fromBare(String.class));
     }
 }

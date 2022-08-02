@@ -28,25 +28,25 @@ class YAMLSequenceTest {
     void testWrongCast() {
         assertThrows(
                 ClassCastException.class,
-                () -> YAMLValue.fromBare(List.of()).asSequence().asInteger()
+                () -> YAMLUtil.fromBare(List.of()).asSequence().asInteger()
         );
         assertThrows(
                 ClassCastException.class,
-                () -> YAMLValue.fromBare(List.of()).asSequence().asBoolean()
+                () -> YAMLUtil.fromBare(List.of()).asSequence().asBoolean()
         );
         assertThrows(
                 ClassCastException.class,
-                () -> YAMLValue.fromBare(List.of()).asSequence().asString()
+                () -> YAMLUtil.fromBare(List.of()).asSequence().asString()
         );
         assertThrows(
                 ClassCastException.class,
-                () -> YAMLValue.fromBare(List.of()).asSequence().asMapping()
+                () -> YAMLUtil.fromBare(List.of()).asSequence().asMapping()
         );
     }
 
     @Test
     void testAsSequence() {
-        var sequence = YAMLValue.fromBare(List.of()).asSequence();
+        var sequence = YAMLUtil.fromBare(List.of()).asSequence();
         assertEquals(sequence, sequence.asSequence());
     }
 }
