@@ -28,7 +28,9 @@ class YAMLValueImpl implements YAMLValue {
     Object inner;
 
     public YAMLValueImpl(Object input) {
-        if (input instanceof Map<?, ?> m) {
+        if (input == null) {
+            inner = null;
+        } else if (input instanceof Map<?, ?> m) {
             inner = buildMapping(m);
         } else if (input instanceof List<?> l) {
             inner = new YAMLSequence(l.stream()

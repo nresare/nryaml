@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -56,5 +57,12 @@ public class YAMLValueTest {
     @Test
     void checkUnhandledClass() {
         assertThrows(IllegalArgumentException.class, () -> YAMLUtil.fromBare(String.class));
+    }
+
+    @Test
+    void testNullValue() {
+        var value = YAMLUtil.fromString("""
+                key: null""");
+        assertNull(value.asMapping().get("key").asString());
     }
 }
