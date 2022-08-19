@@ -27,26 +27,36 @@ class YAMLMappingTest {
     void testWrongCast() {
         assertThrows(
               ClassCastException.class,
-              () -> YAMLUtil.fromBare(Map.of()).asMapping().asInteger()
+              () -> YAMLMapping.of().asInteger()
         );
         assertThrows(
                 ClassCastException.class,
-                () -> YAMLUtil.fromBare(Map.of()).asMapping().asString()
+                () -> YAMLMapping.of().asString()
         );
         assertThrows(
                 ClassCastException.class,
-                () -> YAMLUtil.fromBare(Map.of()).asMapping().asBoolean()
+                () -> YAMLMapping.of().asBoolean()
         );
         assertThrows(
                 ClassCastException.class,
-                () -> YAMLUtil.fromBare(Map.of()).asMapping().asSequence()
+                () -> YAMLMapping.of().asSequence()
         );
     }
 
     @Test
     void testAsMapping() {
-        var mapping = YAMLUtil.fromBare(Map.of()).asMapping();
+        var mapping = YAMLMapping.of().asMapping();
         assertEquals(mapping, mapping.asMapping());
     }
 
+    @Test
+    void testCombine() {
+        var mapping = YAMLMapping.of();
+        var other = YAMLMapping.of("key", YAMLMapping.of("inner_key", YAMLValue.of("inner_value")));
+        mapping = mapping.combine(other);
+        assertEquals(
+                Map.of("key", Map.of("inner_key", "inner_value")),
+                mapping.toBareObject()
+        );
+    }
 }

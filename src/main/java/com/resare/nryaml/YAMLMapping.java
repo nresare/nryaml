@@ -16,11 +16,32 @@
 
 package com.resare.nryaml;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.stream.Collectors.toMap;
 
 public class YAMLMapping extends WrappingMap<String, YAMLValue> implements YAMLValue {
+    public static YAMLMapping of() {
+        return new YAMLMapping(Map.of());
+    }
+
+    public static YAMLMapping of(String k1, YAMLValue v1) {
+        return new YAMLMapping(Map.of(k1, v1));
+    }
+
+    public static YAMLMapping of(String k1, YAMLValue v1, String k2, YAMLValue v2) {
+        return new YAMLMapping(Map.of(k1, v1, k2, v2));
+    }
+
+    public static YAMLMapping of(String k1, YAMLValue v1, String k2, YAMLValue v2, String k3, YAMLValue v3) {
+        return new YAMLMapping(Map.of(k1, v1, k2, v2, k3, v3));
+    }
+
+    public static YAMLMapping of(String k1, YAMLValue v1, String k2, YAMLValue v2, String k3, YAMLValue v3, String k4, YAMLValue v4) {
+        return new YAMLMapping(Map.of(k1, v1, k2, v2, k3, v3, k4, v4));
+    }
+
     public YAMLMapping(Map<String, YAMLValue> input) {
         super(input);
     }
@@ -54,5 +75,12 @@ public class YAMLMapping extends WrappingMap<String, YAMLValue> implements YAMLV
     public Object toBareObject() {
         return this.entrySet().stream()
                 .collect(toMap(Entry::getKey, entry -> entry.getValue().toBareObject()));
+    }
+
+
+    public YAMLMapping combine(YAMLMapping other) {
+        var result = new HashMap<>(this);
+        result.putAll(other);
+        return new YAMLMapping(result);
     }
 }
