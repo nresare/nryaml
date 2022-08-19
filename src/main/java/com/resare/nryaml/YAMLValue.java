@@ -29,4 +29,8 @@ public interface YAMLValue {
     int asInteger();
 
     Object toBareObject();
+
+    static YAMLValue of(String input) {
+        return new YAMLValueImpl(input);
+    }
 }
