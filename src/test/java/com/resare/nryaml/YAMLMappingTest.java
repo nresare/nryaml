@@ -59,4 +59,12 @@ class YAMLMappingTest {
                 mapping.toBareObject()
         );
     }
+
+    @Test
+    void testWithReplaced() {
+        var mapping = YAMLMapping.of("key", YAMLValue.of("first"));
+        var another = mapping.withReplaced("key", YAMLValue.of("second"));
+        assertEquals(YAMLMapping.of("key", YAMLValue.of("first")), mapping);
+        assertEquals(YAMLMapping.of("key", YAMLValue.of("second")), another);
+    }
 }
