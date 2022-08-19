@@ -83,4 +83,10 @@ public class YAMLMapping extends WrappingMap<String, YAMLValue> implements YAMLV
         result.putAll(other);
         return new YAMLMapping(result);
     }
+
+    public YAMLMapping withReplaced(String key, YAMLValue value) {
+        var result = new HashMap<>(this);
+        result.put(key, value);
+        return new YAMLMapping(result);
+    }
 }
